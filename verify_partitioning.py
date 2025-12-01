@@ -1,7 +1,7 @@
 import pandas as pd
 import psycopg2
 from psycopg2.extras import execute_values
-from constants import REGION_CONFIGS
+from server.constants import REGION_CONFIGS
 
 def get_connection(region):
     config = REGION_CONFIGS[region]

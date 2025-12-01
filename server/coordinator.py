@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import uuid
 from datetime import datetime
-from constants import REGION_CONFIGS, REGION_BOUNDS
+from server.constants import REGION_CONFIGS, REGION_BOUNDS
 
 class Coordinator:
     def __init__(self):

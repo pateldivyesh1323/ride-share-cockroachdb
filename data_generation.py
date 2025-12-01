@@ -9,7 +9,7 @@ from enum import Enum
 import pandas as pd
 import numpy as np
 from faker import Faker
-from constants import ENVIRONMENT
+from server.constants import ENVIRONMENT
 
 USERS_PER_REGION_LOCAL = 250
 DRIVERS_PER_REGION_LOCAL = 100

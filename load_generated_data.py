@@ -4,7 +4,7 @@ from psycopg2.extras import execute_values
 import os
 import sys
 from datetime import datetime
-from constants import REGION_CONFIGS, ENVIRONMENT
+from server.constants import REGION_CONFIGS, ENVIRONMENT
 
 def get_connection(region):
     config = REGION_CONFIGS[region]
