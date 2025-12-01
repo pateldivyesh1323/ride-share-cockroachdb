@@ -4,37 +4,7 @@ from psycopg2.extras import execute_values
 import os
 import sys
 from datetime import datetime
-
-REGION_CONFIGS = {
-    'us-east': {
-        'host': 'localhost',
-        'port': 26201,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    },
-    'us-west': {
-        'host': 'localhost',
-        'port': 26204,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    },
-    'eu-central': {
-        'host': 'localhost',
-        'port': 26207,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    },
-    'ap-south': {
-        'host': 'localhost',
-        'port': 26210,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    }
-}
+from constants import REGION_CONFIGS, ENVIRONMENT
 
 def get_connection(region):
     config = REGION_CONFIGS[region]
@@ -445,6 +415,7 @@ def main():
     print("=" * 70)
     print("GEO-DISTRIBUTED RIDE-SHARING DATABASE SYSTEM")
     print("Data Loading Script")
+    print(f"Environment: {ENVIRONMENT.upper()}")
     print("=" * 70)
     
     if clear_data:

@@ -2,56 +2,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import uuid
 from datetime import datetime
-
-REGION_CONFIGS = {
-    'us-east': {
-        'host': 'localhost',
-        'port': 26201,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    },
-    'us-west': {
-        'host': 'localhost',
-        'port': 26204,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    },
-    'eu-central': {
-        'host': 'localhost',
-        'port': 26207,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    },
-    'ap-south': {
-        'host': 'localhost',
-        'port': 26210,
-        'database': 'rideshare',
-        'user': 'root',
-        'password': ''
-    }
-}
-
-REGION_BOUNDS = {
-    'us-east': {
-        'lat_min': 25.0, 'lat_max': 45.0,
-        'lon_min': -80.0, 'lon_max': -65.0
-    },
-    'us-west': {
-        'lat_min': 30.0, 'lat_max': 50.0,
-        'lon_min': -125.0, 'lon_max': -110.0
-    },
-    'eu-central': {
-        'lat_min': 45.0, 'lat_max': 55.0,
-        'lon_min': 5.0, 'lon_max': 15.0
-    },
-    'ap-south': {
-        'lat_min': 10.0, 'lat_max': 25.0,
-        'lon_min': 70.0, 'lon_max': 90.0
-    }
-}
+from constants import REGION_CONFIGS, REGION_BOUNDS
 
 class Coordinator:
     def __init__(self):

@@ -9,16 +9,25 @@ from enum import Enum
 import pandas as pd
 import numpy as np
 from faker import Faker
+from constants import ENVIRONMENT
 
-# Set random seed for reproducibility
+USERS_PER_REGION_LOCAL = 250
+DRIVERS_PER_REGION_LOCAL = 100
+RIDES_PER_REGION_LOCAL = 500
+
+USERS_PER_REGION_CLOUD = 100000
+DRIVERS_PER_REGION_CLOUD = 50000
+RIDES_PER_REGION_CLOUD = 200000
+
+USERS_PER_REGION = USERS_PER_REGION_CLOUD if ENVIRONMENT == 'cloud' else USERS_PER_REGION_LOCAL
+DRIVERS_PER_REGION = DRIVERS_PER_REGION_CLOUD if ENVIRONMENT == 'cloud' else DRIVERS_PER_REGION_LOCAL
+RIDES_PER_REGION = RIDES_PER_REGION_CLOUD if ENVIRONMENT == 'cloud' else RIDES_PER_REGION_LOCAL
+
 random.seed(42)
 np.random.seed(42)
 
 
-# =============================================================================
 # REGION CONFIGURATION
-# =============================================================================
-
 class Region(Enum):
     """Geographic regions for data partitioning."""
     US_EAST = "us-east"
@@ -85,10 +94,7 @@ CITIES = {
 }
 
 
-# =============================================================================
 # DATA MODELS (4 SCHEMAS)
-# =============================================================================
-
 @dataclass
 class User:
     """User entity for the ride-sharing system."""
@@ -194,10 +200,7 @@ REGION_RECORDS = {
 }
 
 
-# =============================================================================
 # GEOHASH IMPLEMENTATION
-# =============================================================================
-
 class GeoHasher:
     """
     Custom geohash implementation for geographic coordinate encoding.
@@ -302,10 +305,7 @@ class GeoHasher:
         }
 
 
-# =============================================================================
 # DATA GENERATOR
-# =============================================================================
-
 class RideshareDataGenerator:
     """Generates realistic synthetic data for the ride-sharing system."""
     
@@ -434,15 +434,13 @@ class RideshareDataGenerator:
         return data
 
 
-# =============================================================================
 # MAIN EXECUTION
-# =============================================================================
-
 def main():
     
     print("=" * 70)
     print("GEO-DISTRIBUTED RIDE-SHARING DATABASE SYSTEM")
     print("Data Generation Script")
+    print(f"Environment: {ENVIRONMENT.upper()}")
     print("=" * 70)
     
     # Initialize GeoHasher
@@ -463,9 +461,9 @@ def main():
     
     generator = RideshareDataGenerator(seed=42)
     dataset = generator.generate_dataset(
-        users_per_region=250,      # 250 × 4 regions = 1,000 users
-        drivers_per_region=100,    # 100 × 4 regions = 400 drivers
-        rides_per_region=500,      # 500 × 4 regions = 2,000 rides
+        users_per_region=USERS_PER_REGION,
+        drivers_per_region=DRIVERS_PER_REGION,
+        rides_per_region=RIDES_PER_REGION,
         geohash_func=hasher.encode
     )
     
