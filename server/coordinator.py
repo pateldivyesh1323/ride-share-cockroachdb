@@ -35,6 +35,7 @@ class Coordinator:
                 password=config['password'],
                 connect_timeout=5
             )
+            conn.autocommit = True
             with self.connection_lock:
                 if region in self.connections:
                     try:
@@ -243,12 +244,8 @@ class Coordinator:
                 cursor = conn.cursor(cursor_factory=RealDictCursor)
                 
                 try:
-                    query = "SELECT * FROM rides WHERE 1=1"
-                    params = []
-                    
-                    if region:
-                        query += " AND region = %s"
-                        params.append(region)
+                    query = "SELECT * FROM rides WHERE region = %s"
+                    params = [reg]
                     
                     if user_id:
                         query += " AND user_id = %s"
