@@ -197,11 +197,16 @@ def configure_zones(conn, region):
         try:
             cursor.execute(f"""
                 ALTER TABLE {table} CONFIGURE ZONE USING
-                    constraints = '[+region={crdb_region}]',
                     num_replicas = 3
             """)
         except Exception as e:
-            print(f"      ⚠ Zone config for {table}: {e}")
+            error_msg = str(e).lower()
+            if "cannot change variable constraint" in error_msg:
+                pass
+            elif "constraint" in error_msg and "variable" in error_msg:
+                pass
+            else:
+                print(f"      ⚠ Zone config for {table}: {e}")
     
     conn.commit()
     cursor.close()

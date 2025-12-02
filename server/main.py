@@ -102,3 +102,8 @@ def delete_ride(ride_id):
     if not deleted:
         raise HTTPException(status_code=404, detail="Ride not found")
     return {"message": "Ride deleted successfully", "ride_id": ride_id}
+
+@app.get("/health/connections")
+def get_connection_health():
+    status = coordinator.get_connection_status()
+    return {"regions": status}
