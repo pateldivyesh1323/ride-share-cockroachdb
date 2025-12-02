@@ -11,6 +11,14 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start = time.perf_counter()
+    response = await call_next(request)
+    process_time_ms = (time.perf_counter() - start) * 1000.0
+    response.headers["X-Process-Time-ms"] = f"{process_time_ms:.2f}"
+    return response
+
 class RideCreate(BaseModel):
     user_id: str
     pickup_lat: float
