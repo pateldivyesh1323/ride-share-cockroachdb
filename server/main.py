@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 from coordinator import coordinator
 from contextlib import asynccontextmanager
+import time
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,7 +13,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 @app.middleware("http")
-async def add_process_time_header(request: Request, call_next):
+async def add_process_time_header(request, call_next):
     start = time.perf_counter()
     response = await call_next(request)
     process_time_ms = (time.perf_counter() - start) * 1000.0
