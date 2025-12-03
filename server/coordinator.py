@@ -232,6 +232,14 @@ class Coordinator:
     
     def get_rides(self, region=None, user_id=None, driver_id=None, status=None, limit=100):
         all_rides = []
+        try:
+            limit_value = int(limit) if limit is not None else 100
+        except (TypeError, ValueError):
+            limit_value = 100
+        if limit_value < 0:
+            limit_value = 100
+        if limit_value == 0:
+            return []
         
         if region and region not in REGION_CONFIGS:
             return []
@@ -259,7 +267,8 @@ class Coordinator:
                         query += " AND status = %s"
                         params.append(status)
                     
-                    query += " ORDER BY timestamp DESC"
+                    query += " ORDER BY timestamp DESC LIMIT %s"
+                    params.append(limit_value)
                     
                     cursor.execute(query, params)
                     results = cursor.fetchall()
@@ -274,8 +283,7 @@ class Coordinator:
                 continue
         
         all_rides.sort(key=lambda x: x.get('timestamp', datetime.min), reverse=True)
-        limit = int(limit) if limit else 100
-        return all_rides[:limit]
+        return all_rides[:limit_value]
     
     def update_ride(self, ride_id, **kwargs):
         ride = self.get_ride(ride_id)
